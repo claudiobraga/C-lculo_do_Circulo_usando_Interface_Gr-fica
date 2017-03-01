@@ -1,0 +1,85 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+/**
+ * Created by cjbraga on 01/03/2017.
+ */
+
+/* Desenvolvimento de uma palicação em Java, que recebe um
+valor correspondente ao raio do círculo, e calcula a área e/ou o perímetro e apresenta o
+resultado numa caixa de diálogo da interface gráfica criada
+*/
+public class CalcularCirculo extends JFrame {
+    /*Declar e Criar os Componentes*/
+    JLabel JlMedidaDoRaio = new JLabel("Medida do Raio");
+    JTextField JtstfMedidaDoRaio = new JTextField(5);
+    JCheckBox JcbxArea = new JCheckBox("Área");
+    JCheckBox JcbxPerimetro = new JCheckBox("Perímetro");
+    JButton JbotaoCalcular = new JButton("Calcular");
+
+    /*Contrutot*/
+    private CalcularCirculo() {
+        setTitle("Cálculo do Circulo");
+        setSize(210, 130);
+        setLocation(50, 50);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+        setVisible(true);
+
+        /*Adição dos Campos / Componentes*/
+        add(JlMedidaDoRaio);
+        add(JtstfMedidaDoRaio);
+        add(JcbxArea);
+        add(JcbxPerimetro);
+        add(JbotaoCalcular);
+
+        JbotaoCalcular.addMouseListener(new EventoJButton());
+    }
+
+    public static void main(String[] args) {
+        new CalcularCirculo();
+    }
+
+    /*Classe interna que implementa os métodos da interface MouseListener*/
+    private class EventoJButton implements MouseListener {
+        Double raio, area, perimetro;
+        String mensagem;
+
+        /*Fazer os Cálculos*/
+        public void mouseClicked(MouseEvent ev) {
+            raio = Double.parseDouble(JtstfMedidaDoRaio.getText());
+            area = 2 * Math.PI * raio;
+            perimetro = Math.PI * raio * raio;
+
+            if ((JcbxArea.isSelected()) && (JcbxPerimetro.isSelected())){
+                mensagem = "Área : " + Double.toString(area) + "\n" + "Perímetro : " + Double.toString(perimetro);
+                JOptionPane.showMessageDialog(null, mensagem, "Cálculo do Circulo",
+                        JOptionPane.PLAIN_MESSAGE);
+            }
+
+            else if ((JcbxArea.isSelected()) && (!JcbxPerimetro.isSelected())){
+                mensagem = "Área : " + Double.toString(area);
+                JOptionPane.showMessageDialog(null, mensagem, "Cálculo do Circulo",
+                        JOptionPane.PLAIN_MESSAGE);
+            }
+
+            else if ((!JcbxArea.isSelected()) && (JcbxPerimetro.isSelected())){
+                mensagem = "Perímetro : " + Double.toString(perimetro);
+                JOptionPane.showMessageDialog(null, mensagem, "Cálculo do Circulo",
+                        JOptionPane.PLAIN_MESSAGE);
+            }
+
+            else
+                JOptionPane.showMessageDialog(null, "Seleccione pelo menos uma opção!",
+                        "Cálculo do Circulo", JOptionPane.ERROR_MESSAGE);
+        }
+
+        public void mouseEntered (MouseEvent ev){}
+        public void mouseExited (MouseEvent ev){}
+        public  void mouseReleased (MouseEvent mouseEvent){}
+        public void mousePressed (MouseEvent event){}
+    }
+}
+
